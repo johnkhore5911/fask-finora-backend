@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: finora-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers=2 --threads=4 --timeout=30 --access-logfile - --error-logfile -
+    envVars:
+      - key: MAX_CONTENT_LENGTH
+        value: "1048576"     # 1 MB
+      - key: WEBHOOK_HMAC_SECRET
+        generateValue: true  # replace with your secret if verifying signatures
